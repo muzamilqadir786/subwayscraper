@@ -10,6 +10,8 @@ from lxml.html import  fromstring
 from datetime import  datetime
 from scrapy import signals
 from scrapy.xlib.pydispatch import dispatcher
+import fileinput
+import sys
 
 class SubwayspiderSpider(scrapy.Spider):
     name = "subwayspider"
@@ -102,9 +104,20 @@ class SubwayspiderSpider(scrapy.Spider):
                 driver.refresh()
                 #driver.get(response.url)
 
-            raise CloseSpider("yes done")
+
+            filename = sys.argv[-3]
+
+            seen = set() # set for fast O(1) amortized lookup
+            for line in fileinput.FileInput(filename, inplace=1):
+                if line in seen:
+                    continue # skip duplicate
+                    seen.add(line)
+                    print line, # standard output is now redirected to the file
 
 
 
 
 
+
+
+1
