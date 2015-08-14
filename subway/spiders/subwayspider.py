@@ -31,8 +31,12 @@ class SubwayspiderSpider(scrapy.Spider):
         driver = webdriver.Chrome("c://chromedriver.exe")
         item = SubwayItem()
         item["TodayDate"] = datetime.now()
+        """
+            Loading yaml settings file to get the locations in comma separated zipcodes like (54506,65034,55000)
+            The restaurants no's from the listing of searched results.
+        """
         import yaml
-        config = yaml.safe_load(open("orders.yml"))
+        config = yaml.safe_load(open("settings.yml"))
         restaurants = config[0]["restaurant_no"]
         locations = str(config[0]["locations"]).split(",")
         for location in locations:
