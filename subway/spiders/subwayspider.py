@@ -25,6 +25,14 @@ class SubwayspiderSpider(scrapy.Spider):
 
     def spider_closed(self, spider):
         print "spider is closed"
+        filename = sys.argv[-3]
+        seen = set() # set for fast O(1) amortized lookup
+        for line in fileinput.FileInput(filename, inplace=1):
+            if line in seen:
+                continue # skip duplicate
+                seen.add(line)
+                print line, # standard output is now redirected to the file
+
       # second param is instance of spder about to be closed.
 
     def parse(self, response):
@@ -109,14 +117,16 @@ class SubwayspiderSpider(scrapy.Spider):
                 #driver.get(response.url)
 
 
-            filename = sys.argv[-3]
-
-            seen = set() # set for fast O(1) amortized lookup
-            for line in fileinput.FileInput(filename, inplace=1):
-                if line in seen:
-                    continue # skip duplicate
-                    seen.add(line)
-                    print line, # standard output is now redirected to the file
+            # filename = sys.argv[-3]
+            # with open(filename, 'r+') as f:
+            #     lines = f.readlines() # Pull the file contents to a list
+            #     seen = set() # set for fast O(1) amortized lookup
+            # #for line in fileinput.FileInput(filename, inplace=1):
+            #     for line in lines:
+            #         if line in seen:
+            #             continue # skip duplicate
+            #             seen.add(line)
+            #             print line, # standard output is now redirected to the file
 
 
 
